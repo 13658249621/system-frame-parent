@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.frame.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.system.frame.entity.User">
+               <id column="uid" property="uid"/>
+                <id column="uname" property="uname"/>
+                <id column="password" property="password"/>
+                <id column="power" property="power"/>
+                <id column="danyuan" property="danyuan"/>
+                <id column="loucneg" property="loucneg"/>
+                <id column="fangjian" property="fangjian"/>
+                <id column="phone" property="phone"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        uid AS "uid", uname AS "uname", password AS "password", power AS "power", danyuan AS "danyuan", loucneg AS "loucneg", fangjian AS "fangjian", phone AS "phone"
+    </sql>
+    <!-- 条件查询(复用) -->
+    <sql id="whereSql">
+        <where>
+            <trim prefixOverrides="and">
+                     <if test="param.uid != null">
+                         and uid =  #{param.uid}
+                     </if>
+                      <if test="param.uname != null and param.uname != ''">
+                        and uname like  concat('%',#{param.uname},'%')
+                     </if>
+                     <if test="param.password != null and param.password != ''">
+                        and password =  #{param.password}
+                     </if>
+                     <if test="param.power != null and param.power != ''">
+                        and power =  #{param.power}
+                     </if>
+                     <if test="param.danyuan != null and param.danyuan != ''">
+                        and danyuan =  #{param.danyuan}
+                     </if>
+                     <if test="param.loucneg != null and param.loucneg != ''">
+                        and loucneg =  #{param.loucneg}
+                     </if>
+                     <if test="param.fangjian != null and param.fangjian != ''">
+                        and fangjian =  #{param.fangjian}
+                     </if>
+                     <if test="param.phone != null and param.phone != ''">
+                        and phone =  #{param.phone}
+                     </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 分页查询list -->
+    <select id="getPageList" resultType="com.system.frame.entity.User" parameterType="com.system.frame.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+         from user
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取数据列表 -->
+    <select id="getList" resultType="com.system.frame.entity.User" parameterType="com.system.frame.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取获取数量 -->
+    <select id="getCount" resultType="int" parameterType="com.system.frame.entity.User">
+        select count(1)
+        from user
+        <include refid="whereSql"/>
+    </select>
+</mapper>
+

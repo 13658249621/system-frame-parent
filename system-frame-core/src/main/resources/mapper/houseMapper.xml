@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.frame.mapper.HouseMapper">
+
+    <resultMap id="BaseResultMap" type="com.system.frame.entity.House">
+               <id column="houseid" property="houseid"/>
+                <id column="danyuan" property="danyuan"/>
+                <id column="louceng" property="louceng"/>
+                <id column="fangjian" property="fangjian"/>
+                <id column="landnum" property="landnum"/>
+                <id column="uname" property="uname"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        houseid AS "houseid", danyuan AS "danyuan", louceng AS "louceng", fangjian AS "fangjian", landnum AS "landnum", uname AS "uname"
+    </sql>
+    <!-- 条件查询(复用) -->
+    <sql id="whereSql">
+        <where>
+            <trim prefixOverrides="and">
+                     <if test="param.houseid != null">
+                         and houseid =  #{param.houseid}
+                     </if>
+                     <if test="param.danyuan != null and param.danyuan != ''">
+                        and danyuan =  #{param.danyuan}
+                     </if>
+                     <if test="param.louceng != null and param.louceng != ''">
+                        and louceng =  #{param.louceng}
+                     </if>
+                     <if test="param.fangjian != null and param.fangjian != ''">
+                        and fangjian =  #{param.fangjian}
+                     </if>
+                     <if test="param.landnum != null and param.landnum != ''">
+                        and landnum =  #{param.landnum}
+                     </if>
+                      <if test="param.uname != null and param.uname != ''">
+                        and uname like  concat('%',#{param.uname},'%')
+                     </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 分页查询list -->
+    <select id="getPageList" resultType="com.system.frame.entity.House" parameterType="com.system.frame.entity.House">
+        select
+        <include refid="Base_Column_List"/>
+         from house
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取数据列表 -->
+    <select id="getList" resultType="com.system.frame.entity.House" parameterType="com.system.frame.entity.House">
+        select
+        <include refid="Base_Column_List"/>
+        from house
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取获取数量 -->
+    <select id="getCount" resultType="int" parameterType="com.system.frame.entity.House">
+        select count(1)
+        from house
+        <include refid="whereSql"/>
+    </select>
+</mapper>
+

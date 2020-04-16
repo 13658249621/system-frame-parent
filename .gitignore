@@ -1,0 +1,10 @@
+
+
+.idea/
+.idea/vcs.xml
+
+system-frame-api/target/
+system-frame-common/target/
+system-frame-core/target/
+system-frame-service/target/
+

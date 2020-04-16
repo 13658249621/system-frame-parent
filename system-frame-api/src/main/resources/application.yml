@@ -1,0 +1,48 @@
+server:
+  port: 8182
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/residential-property?autoReconnect=true&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    filters: wall,mergeStat
+    # 连接池大小根据实际情况调整
+    max-active: 20
+    max-pool-prepared-statement-per-connection-size: 20
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    multiple-result-sets-enabled: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: id_worker
+      table-underline: true
+
+
+#swagger相关配置
+swagger:
+  base-package: com.system.frame.api
+  title: 快递接口文档管理
+  description: 此文档用于小程序、app、web开发人员对接接口
+  version: 1.1
+  terms-of-service-url: http://localhost:8182/
+  contact:
+    name:  专业接口文档
+    email: 1120369355@qq.com
+
+system:
+  localFilePath: D:/sysPath/
+  staticPath: F:/java-project-self/system-frame/system-frame-parent/web/
+  appAddress: http://localhost:8182/

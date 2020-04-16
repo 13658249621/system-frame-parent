@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.frame.mapper.ParkingMapper">
+
+    <resultMap id="BaseResultMap" type="com.system.frame.entity.Parking">
+               <id column="parkingid" property="parkingid"/>
+                <id column="uname" property="uname"/>
+                <id column="parkingplace" property="parkingplace"/>
+                <id column="state" property="state"/>
+                <id column="price" property="price"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        parkingid AS "parkingid", uname AS "uname", parkingplace AS "parkingplace", state AS "state", price AS "price"
+    </sql>
+    <!-- 条件查询(复用) -->
+    <sql id="whereSql">
+        <where>
+            <trim prefixOverrides="and">
+                     <if test="param.parkingid != null">
+                         and parkingid =  #{param.parkingid}
+                     </if>
+                      <if test="param.uname != null and param.uname != ''">
+                        and uname like  concat('%',#{param.uname},'%')
+                     </if>
+                     <if test="param.parkingplace != null and param.parkingplace != ''">
+                        and parkingplace =  #{param.parkingplace}
+                     </if>
+                     <if test="param.state != null and param.state != ''">
+                        and state =  #{param.state}
+                     </if>
+                     <if test="param.price != null and param.price != ''">
+                        and price =  #{param.price}
+                     </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 分页查询list -->
+    <select id="getPageList" resultType="com.system.frame.entity.Parking" parameterType="com.system.frame.entity.Parking">
+        select
+        <include refid="Base_Column_List"/>
+         from parking
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取数据列表 -->
+    <select id="getList" resultType="com.system.frame.entity.Parking" parameterType="com.system.frame.entity.Parking">
+        select
+        <include refid="Base_Column_List"/>
+        from parking
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取获取数量 -->
+    <select id="getCount" resultType="int" parameterType="com.system.frame.entity.Parking">
+        select count(1)
+        from parking
+        <include refid="whereSql"/>
+    </select>
+</mapper>
+

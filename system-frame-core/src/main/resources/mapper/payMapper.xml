@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.frame.mapper.PayMapper">
+
+    <resultMap id="BaseResultMap" type="com.system.frame.entity.Pay">
+               <id column="payid" property="payid"/>
+                <id column="paynama" property="paynama"/>
+                <id column="paytime" property="paytime"/>
+                <id column="price" property="price"/>
+                <id column="state" property="state"/>
+                <id column="uname" property="uname"/>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        payid AS "payid", paynama AS "paynama", paytime AS "paytime", price AS "price", state AS "state", uname AS "uname"
+    </sql>
+    <!-- 条件查询(复用) -->
+    <sql id="whereSql">
+        <where>
+            <trim prefixOverrides="and">
+                     <if test="param.payid != null">
+                         and payid =  #{param.payid}
+                     </if>
+                     <if test="param.paynama != null and param.paynama != ''">
+                        and paynama =  #{param.paynama}
+                     </if>
+                     <if test="param.paytime != null and param.paytime != ''">
+                        and paytime =  #{param.paytime}
+                     </if>
+                     <if test="param.price != null and param.price != ''">
+                        and price =  #{param.price}
+                     </if>
+                     <if test="param.state != null and param.state != ''">
+                        and state =  #{param.state}
+                     </if>
+                      <if test="param.uname != null and param.uname != ''">
+                        and uname like  concat('%',#{param.uname},'%')
+                     </if>
+            </trim>
+        </where>
+    </sql>
+
+    <!-- 分页查询list -->
+    <select id="getPageList" resultType="com.system.frame.entity.Pay" parameterType="com.system.frame.entity.Pay">
+        select
+        <include refid="Base_Column_List"/>
+         from pay
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取数据列表 -->
+    <select id="getList" resultType="com.system.frame.entity.Pay" parameterType="com.system.frame.entity.Pay">
+        select
+        <include refid="Base_Column_List"/>
+        from pay
+        <include refid="whereSql"/>
+    </select>
+    <!-- 获取获取数量 -->
+    <select id="getCount" resultType="int" parameterType="com.system.frame.entity.Pay">
+        select count(1)
+        from pay
+        <include refid="whereSql"/>
+    </select>
+</mapper>
+
